@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DataTable, DataTableSelectionChangeParams } from 'primereact/datatable';
+import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
@@ -22,7 +22,6 @@ const ArtworksTable: React.FC = () => {
     const [totalRecords, setTotalRecords] = useState(0);
     const [first, setFirst] = useState(0);
     const [selectRowsInput, setSelectRowsInput] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
 
     const fetchArtworks = async (page: number = 1) => {
         setLoading(true);
@@ -53,11 +52,10 @@ const ArtworksTable: React.FC = () => {
     const onPageChange = (event: any) => {
         const newPage = event.first / 10 + 1;
         setFirst(event.first);
-        setCurrentPage(newPage);
         fetchArtworks(newPage);
     };
 
-    const onSelectionChange = (e: DataTableSelectionChangeParams) => {
+    const onSelectionChange = (e: { value: Artwork[] } ) => {
         setSelectedArtworks(e.value);
     };
 
@@ -93,7 +91,6 @@ const ArtworksTable: React.FC = () => {
         setSelectedArtworks(newSelection);
         setSelectRowsInput('');
         setFirst(0);
-        setCurrentPage(1);
         fetchArtworks(1);
     };
 
